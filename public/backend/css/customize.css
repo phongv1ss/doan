@@ -1,0 +1,78 @@
+.mb20{
+    margin-bottom: 20px;
+}
+.mt20{
+    margin-top: 20px;
+}
+
+h5{
+    text-transform: uppercase;
+    font-weight: normal;
+}
+table strong {
+    min-width: 117px;
+    display: inline-block;
+}
+/* nut can giua */
+.table >thead>tr>th,
+.table >tbody>tr>th,
+.table >tfoot>tr>th,
+.table >thead>tr>td,
+.table >tbody>tr>td,
+.table >tfoot>tr>td {
+     vertical-align: middle;
+}
+
+.uk-flex-space-between{
+    -ms-flex-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+
+.uk-flex-middle{
+    -ms-flex-align: center;
+    -webkit-align-items:center;
+    align-items: center;
+}
+
+.uk-flex{
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.filter.select-group, .form-control, .btn-search {
+    padding: 8px 12px;
+    box-sizing: border-box;
+}
+.filter {
+    display: flex;
+    align-items: center;
+
+}
+.btn{
+    font-size: 13px;
+}
+.box .ibox {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 1);
+}
+.control-label{
+    display: block;
+}
+.mb15{
+    margin-bottom: 15px;
+}
+.row.pannel-title{
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: 500;
+    color: #1a1a1a;
+
+    
+}
+.select2-container .select2-selection--single {
+    height: 38px; /* Đặt chiều cao giống với các ô khác */
+    padding-top: 4px; /* Điều chỉnh để căn giữa văn bản */
+    border: 1px solid #ccc; /* Đặt màu border cho giống các ô khác */
+    border-radius: 4px; /* Bo tròn cho giống */
+}
