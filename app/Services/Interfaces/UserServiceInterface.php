@@ -13,4 +13,5 @@ interface UserServiceInterface
     public function update($id, $request);
     public function destroy($id);
     public function updateStatus($post = []);
+    public function dangky($request);
 }

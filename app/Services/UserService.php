@@ -37,6 +37,7 @@ class UserService implements UserServiceInterface
 {
     // Lấy keyword từ request
     $condition['keyword'] = addslashes($request->input('keyword', ''));
+    $condition['publish'] = $request->integer('publish');
 
     // Cột cần hiển thị
     $columns = $this->paginateSelect();
@@ -118,5 +119,27 @@ class UserService implements UserServiceInterface
             throw $e;
         }
     }
+    public function dangky($request)
+    {
+        DB::beginTransaction();
     
+        try {
+            $payload = $request->except(['_token', 'send', 're_password']);
+            $payload['birthday'] = $this->converBirthday($payload['birthday'] ?? null);
+            $payload['password'] = Hash::make($payload['password']);
+    
+            // Gọi repository để lưu người dùng
+            $user = $this->userRepository->dangky($payload);
+    
+            DB::commit();
+    
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+             $e->getMessage();
+            return false;
+        }
+    }
+    
+
 }

@@ -144,6 +144,41 @@ class UserController extends Controller
 
     }
 
+
+
+    public function register(StoreUserRequest $request)
+    {
+        // Thêm người dùng thông qua UserService
+        $user = $this->userService->dangky($request);
+    
+        // Kiểm tra kết quả và chuyển hướng
+        if ($user) {
+            return redirect()->route('user.dangky')->with('demo', 'Thêm thành công!');
+        }
+    
+        return redirect()->route('user.dangky')->with('saitt', 'Thêm không thành công!');
+    }
+    
+
+    public function dangky(){
+        $provinces= $this->provinceRepository->all();
+        $config['seo'] = config('apps.user');
+        $config['css'] = [
+            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
+        ];
+        $config['js'] = [
+            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+            'backend/library/location.js'
+        ];
+        $config['method']= 'dangky';
+        $template ='backend.auth.dangky';
+        return view('backend.auth.formdangky',compact(
+            'template',
+            'config',
+            'provinces',
+        ));
+    }
+
     
 }
 

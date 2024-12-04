@@ -4,9 +4,10 @@
             <div class="perpage">
                 <div class="action" >
                     <div class="uk-flex uk-flex-middle" >
-                            <select name="user_catalogue_id" class="form-control mr10 setupSelect2" style="margin-bottom: 4px;height: 40px!important;">
-                                <option value="0" selected="selected" style="">Chọn nhóm thành viên</option>
-                                <option value="1"> Quản Trị Viên</option>                                  
+                            <select name="publish" class="form-control mr10 setupSelect2" style="margin-bottom: 4px;height: 40px!important;">
+                                <option value="-1" selected="selected" style="">Chọn tình trạng</option>
+                                <option value="1"> Quản Trị Viên</option>  
+                                <option value="0"> Thành Viên</option>                                 
                             </select>                                        
                             <div class="input-group">
                                 <input type="text" name="keyword" value="{{ request('keyword')?: old('keyword') }}" placeholder="nhập từ khóa bạn muốn tìm kiếm.."

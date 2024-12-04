@@ -1,4 +1,4 @@
-@include('backend.user.component.breadcrumb',['title'=>$config['seo']['create']['title']])
+@include('backend.user.component.breadcrumb',['title'=>$config['seo']['destroy']['title']])
 
 
 

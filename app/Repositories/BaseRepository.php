@@ -69,4 +69,13 @@ class BaseRepository implements BaseRepositoryInterface
     public function delete(int $id = 0) {
         return $this->findById($id)->delete($id);
     }
+    public function dangky(array $payload = [])
+{
+    // Sử dụng create để thêm bản ghi vào database
+    $model = $this->model->create($payload);
+
+    // Trả về bản ghi mới tạo, đảm bảo nó được làm mới từ database
+    return $model->fresh();
+}
+
 }

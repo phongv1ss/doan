@@ -20,4 +20,5 @@ namespace App\Repositories\Interfaces;
       array $join = [],
       int $perPage = 20
     );
+    public function dangky(array $payload = []);
  }

@@ -37,5 +37,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
+        
     }
+    protected $routeMiddleware = [
+        // Các middleware khác
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
+    ];
+    
 }

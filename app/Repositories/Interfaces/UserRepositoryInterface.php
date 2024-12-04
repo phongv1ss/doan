@@ -19,5 +19,6 @@ namespace App\Repositories\Interfaces;
      public function update(int $id = 0, array $payload = []);
      public function delete(int $id = 0);
      public function pagination(array $column = ['*'], array $condition = [], array $join = [], int $perPage = 20);
+     public function dangky(array $payload = []);
 
  }

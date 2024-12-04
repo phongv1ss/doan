@@ -24,7 +24,7 @@
                             <input type="checkbox" value=""  class="input-checkbox checkboxItem">
                         </td>
                         <td> 
-                            {{$user ->name}}                          
+                            {{$user ->name}}                            
                           
                           
                         </td>
