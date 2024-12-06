@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Cart;
+use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Requests\StoreUserRequest;
@@ -31,7 +32,9 @@ class ProductController extends Controller
     $this->userRepository =$userRepository;
 }
     
-    public function index(){     
+    public function index(){
+        $totalOrders = Order::count();
+        $orders = Order::orderBy('created_at', 'desc')->take(5)->get();    
         $data = Product::all();
         $data = Product::paginate(5);
         $config['seo'] = config('apps.user');
@@ -48,11 +51,14 @@ class ProductController extends Controller
             'template',
             'config',
             'data',
+            'totalOrders',
+            'orders',
         ));
     }
     public function createsanpham()
     {
-      
+        $totalOrders = Order::count();
+        $orders = Order::orderBy('created_at', 'desc')->take(5)->get(); 
         $categories = Category::where('status', 1)->get();
 
         $config['seo'] = config('apps.user');
@@ -70,7 +76,9 @@ class ProductController extends Controller
         return view('backend.dashboard.layout', compact(
             'template',
             'config',
-            'categories'
+            'categories',
+            'totalOrders',
+            'orders',
         ));
     }
 
@@ -98,7 +106,8 @@ class ProductController extends Controller
 
 
     public function editsanpham($id)
-    {
+    {  $totalOrders = Order::count();
+        $orders = Order::orderBy('created_at', 'desc')->take(5)->get(); 
         $product = Product::findOrFail($id);
         $categories = Category::all();
     
@@ -117,7 +126,9 @@ class ProductController extends Controller
             'template',
             'config',
             'categories',
-            'product'
+            'product',
+            'totalOrders',
+            'orders',
         ));
     }
     
