@@ -5,6 +5,7 @@ use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\OrderController;
 use App\Http\Controllers\Front\ShopController;
+use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\CartController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\DashboardController;
@@ -100,6 +101,9 @@ Route::get('/search', [ShopController::class, 'front.shop.search'])->name('produ
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
+Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
+Route::get('/checkout/success', [CheckoutController::class,"successCheckout"])->name('checkout.success');
 
 /*don hang*/ 
 Route::get('Order/index', [OrderController::class, 'index'])->name('Order.index')->middleware(AuthenticateMiddleware::class);

@@ -53,13 +53,13 @@
                             {{$datar->name}}  
                         </td>
                         <td class="text-center">
-                            <img src="{{ asset($datar->image) }}" alt="Ảnh sản phẩm" style="width: 100px; height: auto;">
+                            <img src="{{ asset('storage/' . $datar->image) }}" alt="Ảnh sản phẩm" style="width: 100px; height: auto;">
                         </td>                        
                         <td> 
                             {{$datar->price}}   
                         </td>   
                         <td> 
-                            {!! nl2br(e($datar->description)) !!}    
+                            {!! nl2br($datar->description) !!}  
                         </td>     
                         <td>
                             {{ $datar->category ? $datar->category->name : 'Không có danh mục' }} 

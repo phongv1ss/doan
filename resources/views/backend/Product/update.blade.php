@@ -40,7 +40,8 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="image">Hình ảnh</label>
-                <input type="text" name="image" class="form-control" value="{{ $product->image ?? old('image') }}">
+                <!-- Input File -->
+                <input type="file" name="image" class="form-control" accept="image/*">
             </div>
         </div>
     </div>

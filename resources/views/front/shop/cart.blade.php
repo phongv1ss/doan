@@ -300,7 +300,7 @@
                         <tbody>
                             @foreach(session('cart') as $product_id => $details)
                                 <tr>
-                                    <td><img src="{{ asset($details['image']) }}" alt="{{ $details['name'] }}" width="50" height="50"></td>
+                                    <td><img src="{{ asset('storage/' . $details['image']) }}" alt="{{ $details['name'] }}" width="50" height="50"></td>
                                     <td>{{ $details['name'] }}</td>
                                     <td>{{ number_format($details['price'], 0, ',', '.') }}đ</td>
                                     <td>{{ $details['quantity'] }}</td>

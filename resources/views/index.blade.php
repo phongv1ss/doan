@@ -211,7 +211,7 @@
                @foreach ($products as $product)
                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                    <div class="featured__item">
-                       <div class="featured__item__pic set-bg" data-setbg="{{ asset($product->image) }}">
+                    <div class="featured__item__pic set-bg" data-setbg="{{ asset('storage/' . $product->image) }}">
                            <ul class="featured__item__pic__hover">
                                <li><a href="{{ route('shop.show', $product->id) }}"><i class="fa fa-eye"></i></a> </li>
                                <li>

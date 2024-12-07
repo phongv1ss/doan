@@ -10,10 +10,10 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
     <!-- Css Styles -->
-<link rel="stylesheet" href="{{ asset('front/css/bootstrap.min.css') }}" type="text/css"><link rel="stylesheet" href="{{ asset('front/css/font-awesome.min.css') }}" type="text/css">
-<link rel="stylesheet" href="{{ asset('front/css/elegant-icons.css') }}" type="text/css"><link rel="stylesheet" href="{{ asset('front/css/nice-select.css') }}" type="text/css">
-<link rel="stylesheet" href="{{ asset('front/css/jquery-ui.min.css') }}" type="text/css"><link rel="stylesheet" href="{{ asset('front/css/owl.carousel.min.css') }}" type="text/css">
-<link rel="stylesheet" href="{{ asset('front/css/slicknav.min.css') }}" type="text/css"><link rel="stylesheet" href="{{ asset('front/css/css/style.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('frontend/css/css/bootstrap.min.css') }}" type="text/css"><link rel="stylesheet" href="{{ asset('frontend/css/css/font-awesome.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('frontend/css/css/elegant-icons.css') }}" type="text/css"><link rel="stylesheet" href="{{ asset('frontend/css/css/nice-select.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('frontend/css/css/jquery-ui.min.css') }}" type="text/css"><link rel="stylesheet" href="{{ asset('frontend/css/css/owl.carousel.min.css') }}" type="text/css">
+<link rel="stylesheet" href="{{ asset('frontend/css/css/slicknav.min.css') }}" type="text/css"><link rel="stylesheet" href="{{ asset('frontend/css/css/style1.css') }}" type="text/css">
 </head>
 
 <body>
@@ -138,7 +138,7 @@
             <div class="col-lg-6 col-md-6">
                 <div class="product__details__pic">
                     <div class="product__details__pic__item">
-                        <img class="product__details__pic__item--large" src="{{ asset($product->image) }}" alt="{{ $product->name }}"> <!-- Hiển thị ảnh sản phẩm từ database -->
+                        <img class="product__details__pic__item--large" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
                     </div>
                 </div>
             </div>
@@ -256,9 +256,9 @@
 </footer>
 <!-- Footer Section End -->
     <!-- Js Plugins -->
-<script src="{{ asset('front/js/jquery-3.3.1.min.js') }}"></script><script src="{{ asset('front/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('front/js/jquery.nice-select.min.js') }}"></script><script src="{{ asset('front/js/jquery-ui.min.js') }}"></script>
-<script src="{{ asset('front/js/jquery.slicknav.js') }}"></script><script src="{{ asset('front/js/mixitup.min.js') }}"></script>
-<script src="{{ asset('front/js/owl.carousel.min.js') }}"></script><script src="{{ asset('front/js/main.js') }}"></script>
+<script src="{{ asset('frontend/js/js/jquery-3.3.1.min.js') }}"></script><script src="{{ asset('frontend/js/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('frontend/js/js/jquery.nice-select.min.js') }}"></script><script src="{{ asset('frontend/js/js/jquery-ui.min.js') }}"></script>
+<script src="{{ asset('frontend/js/js/jquery.slicknav.js') }}"></script><script src="{{ asset('frontend/js/js/mixitup.min.js') }}"></script>
+<script src="{{ asset('frontend/js/js/owl.carousel.min.js') }}"></script><script src="{{ asset('frontend/js/js/main.js') }}"></script>
 </body></html>
 

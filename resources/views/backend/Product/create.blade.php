@@ -22,11 +22,12 @@
 @endif
 
 @php
- $url=($config['method']=='themsanpham')? route('Product.storesanpham') : route('Product.updatesanpham',$user->id);
+    $url = ($config['method'] == 'themsanpham') ? route('Product.storesanpham') : route('Product.updatesanpham', $product->id);
 @endphp
 
+
    
-<form action="{{ $url }}" method="POST">
+<form action="{{ $url }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="row">
         <div class="col-md-6">
@@ -38,7 +39,8 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="image">Hình ảnh</label>
-                <input type="text" name="image" class="form-control" value="{{ old('image') }}">
+                <input type="file" name="image" class="form-control" accept="image/*" required>
+                <small class="text-muted">Vui lòng chọn một hình ảnh (jpg, png, jpeg).</small>
             </div>
         </div>
     </div>
@@ -65,7 +67,7 @@
                 <select name="category_id" id="category_id" class="form-control" required>
                     <option value="">-- Chọn danh mục --</option>
                     @foreach($categories as $category)
-                        <option value={{ $category->category_id }}>{{ $category->name }}</option>
+                        <option value="{{ $category->category_id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>                
             </div>
