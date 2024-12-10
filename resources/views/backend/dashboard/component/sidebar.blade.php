@@ -36,6 +36,12 @@
                     <li><a href="{{ route('Order.index') }}">Quản Lý đơn hàng</a></li>
                 </ul>
             </li>
+            <li class="active">
+                <a href="#"><i class="fa fa-cart-plus"></i> <span class="nav-label ">Quản Lý Danh Mục</span> <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a href="{{ route('Category.index') }}">Quản Lý Danh Mục</a></li>
+                </ul>
+            </li>
         </ul>
 
     </div>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Front\ShopController;
 use App\Http\Controllers\Front\CheckoutController;
 use App\Http\Controllers\Front\CartController;
@@ -89,9 +90,18 @@ Route::post('storesanpham', [ProductController::class, 'storesanpham'])->name('P
 
  Route::post('/products/delete/{id}', [ProductController::class, 'destroy'])->name('Product.delete')->middleware(AuthenticateMiddleware::class);
 
+/*quanlydanhmuc*/ 
+
+    Route::get('Category/index', [CategoryController::class, 'index'])->name('Category.index')->middleware(AuthenticateMiddleware::class); 
+    Route::get('/create', [CategoryController::class, 'create'])->name('Category.create')->middleware(AuthenticateMiddleware::class);
+    Route::post('/store', [CategoryController::class, 'store'])->name('Category.store')->middleware(AuthenticateMiddleware::class); 
+    Route::get('Category/edit/{category_id}', [CategoryController::class, 'edit'])->name('Category.edit')->middleware(AuthenticateMiddleware::class); 
+    Route::put('Category/update/{category_id}', [CategoryController::class, 'update'])->name('Category.update')->middleware(AuthenticateMiddleware::class);
+    Route::delete('Category/delete/{category_id}', [CategoryController::class, 'destroy'])->name('Category.destroy')->middleware(AuthenticateMiddleware::class); 
 
 
- /*SHOP*/
+
+/*SHOP*/
  Route::get('/', [ShopController::class, 'index'])->middleware(RoleMiddleware::class . ':member')->name('Shop.index'); 
 Route::get('shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('shop/{id}', [ShopController::class, 'show'])->name('shop.show');

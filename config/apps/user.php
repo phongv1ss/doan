@@ -34,6 +34,15 @@ return [
     'xemdonhang' => [
         'title' => 'Xem Chi Tiết Đơn Hàng',
     ],
+    'quanlydanhmuc' => [
+        'title' => 'Quản Lý Danh Mục',
+    ],
+    'suadanhmuc' => [
+        'title' => 'Sửa Danh Mục',
+    ],
+    'Themdanhmuc' => [
+        'title' => 'Thêm Danh Mục',
+    ],
 ];
 
 ?>
