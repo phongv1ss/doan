@@ -11,6 +11,12 @@
         </ol>
     </div>
 </div>
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
 
 <div class="container">
     <h2>Danh sách danh mục</h2>
@@ -35,15 +41,22 @@
                 <td>
                     @if(isset($category->category_id))
                         <a href="{{ route('Category.edit', $category->category_id) }}" class="btn btn-sm btn-warning">Sửa</a>
-                        <form action="{{ route('Category.destroy', $category->category_id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
-                        </form>
+                        
+                        @if($category->products_count == 0)
+                            <form action="{{ route('Category.destroy', $category->category_id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
+                            </form>
+                        @else
+                        <span class="text-muted">Không thể xóa</span>
+                        @endif
+                
                     @else
                         <span class="text-danger">ID không tồn tại</span>
                     @endif
                 </td>
+                
             </tr>
             @endforeach
         </tbody>

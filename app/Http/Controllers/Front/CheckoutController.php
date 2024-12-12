@@ -47,11 +47,11 @@ class CheckoutController extends Controller
            // try 
             {
                 // Gửi email 
-              //  dd($validated['email']);
+              //dd($validated['email']);
                 Mail::to($validated['email'])->send(new OrderConfirmation($orderDetails));
-                // echo 'ok'; exit;
+                //echo 'ok'; exit;
                 session()->forget('cart');// Xóa giỏ hàng sau khi thanh toán thành công 
-                // dd($validated['email']);
+                //dd($validated['email']);
                 // Chuyển hướng tới trang thành công
                 return redirect()->route('checkout.success')->with('success', 'Thanh toán thành công! Đơn hàng của bạn đã được xác nhận.');
             } 

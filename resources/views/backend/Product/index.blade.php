@@ -31,7 +31,7 @@
         <th class="text-center">Thao Tác</th>
         
     </tr>
-    <a href="{{ route('Product.createsanpham') }}" class="btn btn-info">
+    <a href="{{ route('Product.createsanpham') }}" class="btn btn-primary">
         <i class="fa fa-plus"></i>
     </a>
     </thead>

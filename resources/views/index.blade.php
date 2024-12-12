@@ -37,11 +37,40 @@
            <a href="#"><img src="front/img/logo.png" alt=""></a>
        </div>
        <div class="humberger__menu__cart">
-           <ul>
-               <li><a href="#"><i class="fa fa-heart"></i> <span></span></a></li>
-               <li><a href="#"><i class="fa fa-shopping-bag"></i> <span></span></a></li>
-           </ul>
-           <div class="header__cart__price">giá: <span>150.000đ</span></div>
+        <div class="header__cart">
+            <style>
+                .cart-count {
+                    background-color: #ff0000;
+                    color: #ffffff;
+                    font-size: 12px;
+                    font-weight: bold;
+                    border-radius: 50%;
+                    padding: 2px 7px; /* Điều chỉnh padding */
+                    position: absolute;
+                    top: -5px; /* Điều chỉnh vị trí top */
+                    right: -10px; /* Điều chỉnh vị trí right */
+                    display: flex; /* Thêm flexbox để căn giữa */
+                    justify-content: center; /* Căn giữa ngang */
+                    align-items: center; /* Căn giữa dọc */
+                    min-width: 20px; /* Đảm bảo hình tròn không bị méo */
+                    height: 20px;
+                }
+            </style>
+            <ul>
+                <li>
+                    <a href="{{ route('cart.index') }}" style="position: relative;">
+                        <i class="fa fa-shopping-bag"></i>
+                        @php
+                            $cart = session()->get('cart', []);
+                            $cartCount = array_sum(array_column($cart, 'quantity'));
+                        @endphp
+                        @if($cartCount > 0)
+                            <span class="cart-count">{{ $cartCount }}</span>
+                        @endif
+                    </a>
+                </li>
+            </ul>
+        </div> 
        </div>
        <div class="humberger__menu__widget">
            <div class="header__top__right__language">
@@ -133,30 +162,40 @@
                </div>
                <div class="col-lg-3">
                    <div class="header__cart">
-                       <ul>
-
-                           <li><a href="{{ route('cart.index') }}"><i class="fa fa-shopping-bag"></i></a></li>
-
-                           {{-- <li>
-                               <a href="{{ route('cart.show') }}"><i class="fa fa-shopping-cart"></i></a>
-                               <ul class="cart-dropdown">
-                                   @foreach($cartItems ?? [] as $item)
-                                       <li>
-                                           <p>{{ $item->name }} (x{{ $item->quantity }})</p>
-                                           <p>{{ number_format($item->price * $item->quantity, 0, ',', '.') }} đ</p>
-                                       </li>
-                                   @endforeach
-                                   @if(empty($cartItems) || $cartItems->isEmpty())
-                                       <li><p>Giỏ hàng trống</p></li>
-                                   @endif
-                               </ul>
-                           </li> --}}
-                           
-                           {{-- <li><a href="#"><i class="fa fa-shopping-cart"></i> <span id="cart-count">{{ $cartCount ?? 0 }}</span></a> </li> --}}
-                           
-                           {{-- <!-- Thêm container cho Toast Notification -->
-                           <div id="toast-container"></div> --}}
-                       </ul>
+                    <div class="header__cart">
+                        <style>
+                            .cart-count {
+                                background-color: #ff0000;
+                                color: #ffffff;
+                                font-size: 12px;
+                                font-weight: bold;
+                                border-radius: 50%;
+                                padding: 2px 7px; /* Điều chỉnh padding */
+                                position: absolute;
+                                top: -5px; /* Điều chỉnh vị trí top */
+                                right: -10px; /* Điều chỉnh vị trí right */
+                                display: flex; /* Thêm flexbox để căn giữa */
+                                justify-content: center; /* Căn giữa ngang */
+                                align-items: center; /* Căn giữa dọc */
+                                min-width: 20px; /* Đảm bảo hình tròn không bị méo */
+                                height: 20px;
+                            }
+                        </style>
+                        <ul>
+                            <li>
+                                <a href="{{ route('cart.index') }}" style="position: relative;">
+                                    <i class="fa fa-shopping-bag"></i>
+                                    @php
+                                        $cart = session()->get('cart', []);
+                                        $cartCount = array_sum(array_column($cart, 'quantity'));
+                                    @endphp
+                                    @if($cartCount > 0)
+                                        <span class="cart-count">{{ $cartCount }}</span>
+                                    @endif
+                                </a>
+                            </li>
+                        </ul>
+                    </div> 
                    </div>
                </div>
            </div>

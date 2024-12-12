@@ -142,12 +142,39 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="header__cart">
+                        <style>
+                            .cart-count {
+                                background-color: #ff0000;
+                                color: #ffffff;
+                                font-size: 12px;
+                                font-weight: bold;
+                                border-radius: 50%;
+                                padding: 2px 7px; /* Điều chỉnh padding */
+                                position: absolute;
+                                top: -5px; /* Điều chỉnh vị trí top */
+                                right: -10px; /* Điều chỉnh vị trí right */
+                                display: flex; /* Thêm flexbox để căn giữa */
+                                justify-content: center; /* Căn giữa ngang */
+                                align-items: center; /* Căn giữa dọc */
+                                min-width: 20px; /* Đảm bảo hình tròn không bị méo */
+                                height: 20px;
+                            }
+                        </style>
                         <ul>
-
-                            <li><a href="{{ route('cart.index') }}"><i class="fa fa-shopping-bag"></i></a></li>
+                            <li>
+                                <a href="{{ route('cart.index') }}" style="position: relative;">
+                                    <i class="fa fa-shopping-bag"></i>
+                                    @php
+                                        $cart = session()->get('cart', []);
+                                        $cartCount = array_sum(array_column($cart, 'quantity'));
+                                    @endphp
+                                    @if($cartCount > 0)
+                                        <span class="cart-count">{{ $cartCount }}</span>
+                                    @endif
+                                </a>
+                            </li>
                         </ul>
-                        
-                    </div>
+                    </div> 
                 </div>
             </div>
             <div class="humberger__open">
@@ -183,104 +210,12 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="hero__item set-bg" data-setbg="front/img/hero/banner1.jpg">
-            <div class="hero__text">
-                <span>Sản phẩm mới</span>
-                <h2>Web <br />2Phong</h2>
-                <a href="{{ route('shop.grid') }}" class="primary-btn">Khám phá ngay</a>
-            </div>
-        </div> --}}
+
     </div>
 </section>
 <!-- Hero Section End -->
 
-{{-- <div class="col-md-8">
-    <div class="card">
-        <div class="card-header">
-            <h4>Danh sách sản phẩm</h4>
-        </div>
-        <div class="card-body">
-            @if($cartItems->isEmpty())
-                <p>Giỏ hàng của bạn hiện đang trống!</p>
-            @else
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Sản phẩm</th>
-                            <th>Số lượng</th>
-                            <th>Giá</th>
-                            <th>Tổng</th>
-                            <th>Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($cartItems as $item)
-                            <tr>
-                                <td>
-                                    <img src="{{ $item->product->image }}" alt="{{ $item->product->name }}" style="width: 50px;">
-                                    {{ $item->product->name }}
-                                </td>
-                                <td>
-                                    <input type="number" value="{{ $item->quantity }}" min="1" class="form-control w-50">
-                                </td>
-                                <td>{{ number_format($item->product->price) }}đ</td>
-                                <td>{{ number_format($item->product->price * $item->quantity) }}đ</td>
-                                <td>
-                                    <button class="btn btn-sm btn-danger">Xóa</button>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @endif
-        </div>
-    </div>
-</div> --}}
-{{-- <section>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2>Giỏ hàng của bạn</h2>
-                @if(session()->has('cart') && count(session('cart')) > 0)
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Hình ảnh</th>  <!-- Thêm cột cho hình ảnh -->
-                                <th>Sản phẩm</th>
-                                <th>Giá</th>
-                                <th>Số lượng</th>
-                                <th>Tổng</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach(session('cart') as $product_id => $details)
-                                <tr>
-                                    <td><img src="{{ asset($details['image']) }}" alt="{{ $details['name'] }}" width="50" height="50"></td>  <!-- Hiển thị hình ảnh sản phẩm -->
-                                    <td>{{ $details['name'] }}</td>
-                                    <td>{{ number_format($details['price'], 0, ',', '.') }}đ</td>
-                                    <td>{{ $details['quantity'] }}</td>
-                                    <td>{{ number_format($details['price'] * $details['quantity'], 0, ',', '.') }}đ</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <!-- Tổng tiền và nút thanh toán -->
-                            <div class="cart-total">
-                                <p><strong>Tổng tiền: </strong>{{ number_format(array_sum(array_column(session('cart'), 'price')), 0, ',', '.') }}đ</p>
-                                <a href="" class="btn btn-primary">Thanh toán</a> <!-- Nút thanh toán -->
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <p>Giỏ hàng của bạn hiện tại trống.</p>
-                @endif
-            </div>
-        </div>
-    </div>
-</section> --}}
-<<section>
+<section>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -300,7 +235,7 @@
                         <tbody>
                             @foreach(session('cart') as $product_id => $details)
                                 <tr>
-                                    <td><img src="{{ asset('storage/' . $details['image']) }}" alt="{{ $details['name'] }}" width="50" height="50"></td>
+                                    <td><img src="{{ asset($details['image']) }}" alt="{{ $details['name'] }}" width="50" height="50"></td>
                                     <td>{{ $details['name'] }}</td>
                                     <td>{{ number_format($details['price'], 0, ',', '.') }}đ</td>
                                     <td>{{ $details['quantity'] }}</td>
@@ -327,7 +262,7 @@
                             </p>
                         </div>
                         <div class="cart-checkout">
-                            <a href="#" class="btn btn-primary" style="background-color: #7fad39">Thanh toán</a>
+                            <a href="{{ route('checkout') }}" class="btn btn-primary" style="background-color: #7fad39">Thanh toán</a>
                         </div>
                     </div>
                 @else

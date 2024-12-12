@@ -107,7 +107,8 @@ Route::get('shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('shop/{id}', [ShopController::class, 'show'])->name('shop.show');
 
 Route::get('/shop-grid', [ShopController::class, 'shopGrid'])->name('shop.grid');
-Route::get('/search', [ShopController::class, 'front.shop.search'])->name('products.search'); 
+// Route::get('/search', [ShopController::class, 'front.shop.search'])->name('products.search'); 
+Route::get('/search', [ShopController::class, 'search'])->name('products.search');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
