@@ -22,7 +22,7 @@ class CartController extends Controller
             $quantity = $request->input('quantity', 1);
     
             if (!$product) {
-                return redirect()->back()->with('error', 'Sản phẩm không tồn tại');
+                return redirect()->back()->with('saitt', 'Sản phẩm không tồn tại');
             }
             // Lấy thông tin giỏ hàng từ session, nếu không có thì tạo mới
             $cart = session()->get('cart', []);
@@ -41,7 +41,7 @@ class CartController extends Controller
             // Lưu giỏ hàng vào session
             session()->put('cart', $cart);
     
-            return redirect()->back()->with('success', 'Sản phẩm đã được thêm vào giỏ hàng');
+            return redirect()->back()->with('demo', 'Sản phẩm đã được thêm vào giỏ hàng');
     }
     public function removeFromCart(Request $request)
 {
@@ -53,6 +53,6 @@ class CartController extends Controller
         session()->put('cart', $cart); // Cập nhật lại giỏ hàng
     }
 
-    return redirect()->back()->with('success', 'Sản phẩm đã được xóa khỏi giỏ hàng');
+    return redirect()->back()->with('demo', 'Sản phẩm đã được xóa khỏi giỏ hàng');
 }    
 }

@@ -31,10 +31,10 @@ public function index() {
     
             if ($user->publish === 1) {
                 // Nếu là quản trị viên
-                return redirect()->route('dashboard.index');
+                return redirect()->route('dashboard.index')->with('demo', 'Đăng nhập Thành Công !!!');
             } else {
                 // Nếu là thành viên
-                return redirect()->route('shop.index'); // route đến trang bán hàng chính
+                return redirect()->route('shop.index')->with('demo', 'Đăng nhập Thành Công !!!');
             }
         }
     

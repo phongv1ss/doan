@@ -22,6 +22,7 @@
         <th class="text-center">Email</th>
         <th class="text-center">Ngày Đặt Hàng</th>
         <th class="text-center">Tổng Giá Trị</th>
+        <th class="text-center">Trạng Thái</th> 
         <th class="text-center">Thao Tác</th>
     </tr>
     </thead>
@@ -46,6 +47,9 @@
             </td>
             <td>
                 {{ number_format($order->total_price, 0, ',', '.') }} VNĐ
+            </td>
+            <td> 
+                {{ $order->status }}
             </td>
             <td class="text-center">
                 <a href="{{ route('Order.View', ['id' => $order->order_id]) }}" class="btn btn-primary">Xem</a>

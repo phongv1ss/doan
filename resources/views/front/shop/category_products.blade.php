@@ -9,44 +9,68 @@
     <title>Web 2Phong</title>
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="frontend/css/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/style1.css" type="text/css">
+    <link rel="stylesheet" href="{{asset('frontend/css/css/bootstrap.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/nice-select.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/elegant-icons.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/nice-select.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/jquery-ui.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/owl.carousel.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/slicknav.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/style1.css')}}" type="text/css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 </head>
+
 <body>
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
     </div>
     @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
     <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="front/img/logo.png" alt=""></a>
+            <a href="#"><img src="frontend/img/logo.png" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
+            <style>
+                .cart-count {
+                    background-color: #ff0000;
+                    color: #ffffff;
+                    font-size: 12px;
+                    font-weight: bold;
+                    border-radius: 50%;
+                    padding: 2px 7px; /* Điều chỉnh padding */
+                    position: absolute;
+                    top: -5px; /* Điều chỉnh vị trí top */
+                    right: -10px; /* Điều chỉnh vị trí right */
+                    display: flex; /* Thêm flexbox để căn giữa */
+                    justify-content: center; /* Căn giữa ngang */
+                    align-items: center; /* Căn giữa dọc */
+                    min-width: 20px; /* Đảm bảo hình tròn không bị méo */
+                    height: 20px;
+                }
+            </style>
             <ul>
-                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                <li><a href="{{ route('cart.index') }}"><i class="fa fa-shopping-bag"></i></a></li>
+                <li>
+                    <a href="{{ route('cart.index') }}" style="position: relative;">
+                        <i class="fa fa-shopping-bag"></i>
+                        @php
+                            $cart = session()->get('cart', []);
+                            $cartCount = array_sum(array_column($cart, 'quantity'));
+                        @endphp
+                        @if($cartCount > 0)
+                            <span class="cart-count">{{ $cartCount }}</span>
+                        @endif
+                    </a>
+                </li>
             </ul>
-            
         </div>
         <div class="humberger__menu__widget">
             <div class="header__top__right__language">
-                <img src="front/img/language_VN.png" alt="">
+                <img src="frontend/img/language_VN.png" alt="">
                 <div>Tiếng Việt</div>
                 <span class="arrow_carrot-down"></span>
                 <ul>
@@ -108,7 +132,7 @@
                                 <a href="https://www.instagram.com/phamhongphong.vim/"><i class="fa fa-instagram"></i></a>
                             </div>
                             <div class="header__top__right__language">
-                                <img src="front/img/language_VN.png" alt="">
+                                <img src="frontend/img/language_VN.png" alt="">
                                 <div>Tiếng Việt</div>
                                 <span class="arrow_carrot-down"></span>
                                 <ul>
@@ -123,6 +147,8 @@
                                 @else
                                     <a href="{{ route('auth.login') }}"><i class="fa fa-user"></i> Đăng nhập</a>
                                 @endif
+                               </div>
+                          
                         </div>
                     </div>
                 </div>
@@ -178,7 +204,8 @@
                                 </a>
                             </li>
                         </ul>
-                    </div> 
+                    </div>
+                    
                 </div>
             </div>
             <div class="humberger__open">
@@ -219,67 +246,94 @@
 </section>
 <!-- Hero Section End -->
 
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2>Giỏ hàng của bạn</h2>
-                @if(session()->has('cart') && count(session('cart')) > 0)
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Hình ảnh</th>
-                                <th>Sản phẩm</th>
-                                <th>Giá</th>
-                                <th>Số lượng</th>
-                                <th>Tổng</th>
-                                <th>Hành động</th> <!-- Thêm cột hành động -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach(session('cart') as $product_id => $details)
-                                <tr>
-                                    <td><img src="{{ asset($details['image']) }}" alt="{{ $details['name'] }}" width="50" height="50"></td>
-                                    <td>{{ $details['name'] }}</td>
-                                    <td>{{ number_format($details['price'], 0, ',', '.') }}đ</td>
-                                    <td>{{ $details['quantity'] }}</td>
-                                    <td>{{ number_format($details['price'] * $details['quantity'], 0, ',', '.') }}đ</td>
-                                    <td>
-                                        <form action="{{ route('cart.remove') }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="product_id" value="{{ $product_id }}">
-                                            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <!-- Ô tổng tiền và nút thanh toán -->
-                    <div class="cart-summary" style="margin-top: 20px; padding: 20px; background-color: #f8f8f8; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: space-between;">
-                        <div class="cart-total">
-                            <p style="margin: 0;">
-                                <strong>Tổng tiền:</strong> 
-                                {{ number_format(array_sum(array_map(function($details) {
-                                    return $details['price'] * $details['quantity'];
-                                }, session('cart'))), 0, ',', '.') }}đ
-                            </p>
-                        </div>
-                        <div class="cart-checkout">
-                            <a href="{{ route('checkout') }}" class="btn btn-primary" style="background-color: #7fad39">Thanh toán</a>
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="frontend/img/breadcrumb1.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>Web 2Phong</h2>
+                        <div class="breadcrumb__option">
+                            <a href="{{ route('shop.index') }}">Trang chủ</a>
+                            <span>Mua sắm</span>
                         </div>
                     </div>
-                @else
-                    <p>Giỏ hàng của bạn hiện tại trống.</p>
-                @endif
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Product Section Begin -->
+    <section class="product spad">
+        <div class="container">
+        <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-md-5">
+            <div class="sidebar">
+                <div class="sidebar__item">
+                    <h4>Theo sản phẩm</h4>
+                    <ul>
+                        @foreach($categories as $category)
+                            <li>
+                                <a href="{{ route('category.products', $category->category_id) }}" 
+                                   class="{{ $currentCategory->category_id == $category->category_id ? 'active' : '' }}">
+                                    {{ $category->name }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Products -->
+        <div class="col-lg-9 col-md-7">
+            <h4 class="mb-3">Sản phẩm thuộc danh mục: {{ $currentCategory->name }}</h4>
+            <div class="row">
+                @foreach ($products as $product)
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/' . $product->image) }}">
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="{{ route('shop.show', $product->id) }}"><i class="fa fa-eye"></i></a></li>
+                                    <li>
+                                        <form action="{{ route('cart.add') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <button type="submit" style="display: inline-block; border-radius: 50%; background-color: white; padding: 10px; color: black; border: none; cursor: pointer;">
+                                                <i class="fa fa-shopping-cart" style="color: black; font-size: 20px;"></i>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+            <form method="GET" action="{{ url()->current() }}" class="sort-form">
+                <select name="sort" id="sort" onchange="this.form.submit()">
+                    <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>Giá tăng dần</option>
+                    <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Giá giảm dần</option>
+                </select>
+            </form>
+
+                            <div class="product__item__text">
+                                <h6><a href="#">{{ $product->name }}</a></h6>
+                                <h5>${{ number_format($product->price, 2) }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <!-- Pagination -->
+            <div class="product__pagination">
+                {{ $products->links() }}
             </div>
         </div>
     </div>
+</div>
 </section>
-
-
-
-
+<div class="col-lg-12"><div class="section-title"><h5><a href="{{ route('shop.grid') }}">Xem thêm</a></h5></div></div>
+    <!-- Product Section End -->
 
     <!-- Footer Section Begin -->
     <footer class="footer spad">
@@ -297,27 +351,7 @@
                         </ul>
                     </div>
                 </div>
-                {{-- <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
-                    <div class="footer__widget">
-                        <!-- <h6>Useful Links</h6> -->
-                        <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">About Our Shop</a></li>
-                            <li><a href="#">Secure Shopping</a></li>
-                            <li><a href="#">Delivery infomation</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Our Sitemap</a></li>
-                        </ul>
-                        <ul>
-                            <li><a href="#">Who We Are</a></li>
-                            <li><a href="#">Our Services</a></li>
-                            <li><a href="#">Projects</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Innovation</a></li>
-                            <li><a href="#">Testimonials</a></li>
-                        </ul>
-                    </div>
-                </div> --}}
+
                 <div class="col-lg-4 col-md-12">
                     <div class="footer__widget">
                         <h6>Join Our Newsletter Now</h6>
@@ -338,9 +372,10 @@
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
-    <script src="frontend/js/js/jquery-3.3.1.min.js"></script><script src="frontend/js/js/bootstrap.min.js"></script>
-    <script src="frontend/js/js/jquery.nice-select.min.js"></script><script src="frontend/js/js/jquery-ui.min.js"></script>
-    <script src="frontend/js/js/jquery.slicknav.js"></script><script src="frontend/js/js/mixitup.min.js"></script>
-    <script src="frontend/js/js/owl.carousel.min.js"></script><script src="frontend/js/js/main.js"></script>
+    <script src="{{ asset('frontend/js/js/jquery-3.3.1.min.js')}}"></script><script src="{{ asset('frontend/js/js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('frontend/js/js/jquery.nice-select.min.js')}}"></script><script src="{{ asset('frontend/js/js/jquery-ui.min.js')}}"></script>
+    <script src="{{ asset('frontend/js/js/jquery.slicknav.js')}}"></script><script src="{{ asset('frontend/js/js/mixitup.min.js')}}"></script>
+    <script src="{{ asset('frontend/js/js/owl.carousel.min.js')}}"></script><script src="{{ asset('frontend/js/js/main.js')}}"></script>
+    
 </body>
 </html>

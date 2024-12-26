@@ -112,8 +112,12 @@
                                 </ul>
                             </div>
                             <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Đăng nhập</a>
-                            </div>
+                                @if(Auth::check())
+                                    <a href="{{route('shop.profile')}}"><i class="fa fa-user"></i></a> 
+                                    <a href="{{ route('auth.logout') }}"><i class="fa fa-sign-out"></i> Đăng xuất</a>  
+                                @else
+                                    <a href="{{ route('auth.login') }}"><i class="fa fa-user"></i> Đăng nhập</a>
+                                @endif
                         </div>
                     </div>
                 </div>

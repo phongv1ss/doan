@@ -130,15 +130,18 @@
                            <div class="header__top__right__language">
                                <img src="front/img/language_VN.png" alt="">
                                <div>Tiếng Việt</div>
-                               <span class="arrow_carrot-down"></span>
-                               <ul>
-                                   <li><a href="#">Tiếng Anh</a></li>
-                                   <li><a href="#">Tiếng Việt</a></li>
-                               </ul>
                            </div>
+                                   
                            <div class="header__top__right__auth">
-                               <a href="{{route('auth.login')}}"><i class="fa fa-user"></i> Đăng nhập</a>
-                           </div>                       
+                            @if(Auth::check())
+                                <a href="{{route('shop.profile')}}"><i class="fa fa-user"></i></a> 
+                                <a href="{{ route('auth.logout') }}"><i class="fa fa-sign-out"></i> Đăng xuất</a>  
+                            @else
+                                <a href="{{ route('auth.login') }}"><i class="fa fa-user"></i> Đăng nhập</a>
+                            @endif
+                           </div>
+                        </div>           
+                                            
                        </div>
                    </div>
                </div>
@@ -156,7 +159,9 @@
                        <ul>
                            <li class="active"><a href="{{ route('shop.index') }}">Trang chủ</a></li>
                            <li><a href="{{ route('shop.grid') }}">Mua sắm</a></li>
-                           <li><a href="./contact.html">Liên hệ</a></li>
+                           <li class="nav-item">
+                            <a class="nav-link" href="{{ route('reviews.danhgia') }}">Đánh giá</a>
+                        </li>
                        </ul>
                    </nav>
                </div>
@@ -278,7 +283,77 @@
        </div>
    </section>
    <!-- Featured Section End -->
+   <section class="reviews-section py-5 bg-light">
+    <div class="container">
+        <h3 class="text-center mb-4">Đánh giá từ khách hàng</h3>
+        
+        @if($comments->count() > 0)
+            <div class="comments-slider">
+                @foreach($comments as $comment)
+                    <div class="comment-item px-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <h6 class="card-subtitle text-primary">{{ $comment->user->name }}</h6>
+                                    <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
+                                </div>
+                                <p class="card-text">{{ $comment->comment }}</p>
+                                <small class="text-muted">Sản phẩm: {{ $comment->product->name }}</small>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+</section>
 
+@push('styles')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
+<style>
+.comments-slider .comment-item {
+    padding: 15px;
+}
+.comments-slider .card {
+    transition: transform 0.3s;
+}
+.comments-slider .card:hover {
+    transform: translateY(-5px);
+}
+</style>
+@endpush
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script>
+$(document).ready(function(){
+    $('.comments-slider').slick({
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        responsive: [
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 2
+                }
+            },
+            {
+                breakpoint: 576,
+                settings: {
+                    slidesToShow: 1
+                }
+            }
+        ]
+    });
+});
+</script>
+@endpush
    <!-- Footer Section Begin -->
    <footer class="footer spad">
        <div class="container">

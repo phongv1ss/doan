@@ -10,7 +10,7 @@ return [
     'create' => [
         'title' => 'Thêm mới thành viên',
     ],
-    'delete' => [
+    'destroy' => [
         'title' => 'Xóa thành viên',
     ],
     'dangky' => [

@@ -1,4 +1,3 @@
-
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-1g-8">
         <h2>{{ $config['seo']['quanlydanhmuc']['title'] }}</h2>
@@ -49,7 +48,7 @@
                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
                             </form>
                         @else
-                        <span class="text-muted">Không thể xóa</span>
+                            <button class="btn btn-sm btn-danger" disabled title="Không thể xóa danh mục đang có sản phẩm">Xóa</button>
                         @endif
                 
                     @else

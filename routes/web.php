@@ -17,7 +17,7 @@ use App\Http\Middleware\loginMiddleware;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Ajax\LocationController;
 use App\Models\frontend\Product;
-
+use App\Http\Controllers\Front\CommentController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -105,9 +105,7 @@ Route::post('storesanpham', [ProductController::class, 'storesanpham'])->name('P
  Route::get('/', [ShopController::class, 'index'])->middleware(RoleMiddleware::class . ':member')->name('Shop.index'); 
 Route::get('shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('shop/{id}', [ShopController::class, 'show'])->name('shop.show');
-
 Route::get('/shop-grid', [ShopController::class, 'shopGrid'])->name('shop.grid');
-// Route::get('/search', [ShopController::class, 'front.shop.search'])->name('products.search'); 
 Route::get('/search', [ShopController::class, 'search'])->name('products.search');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
@@ -115,8 +113,17 @@ Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('ca
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
 Route::get('/checkout/success', [CheckoutController::class,"successCheckout"])->name('checkout.success');
+Route::get('/profile', [ShopController::class, 'profile'])->name('shop.profile');
+Route::put('shop/{id}/profileupdate', [ShopController::class, 'profileupdate'])->name('shop.profileupdate');
+Route::get('/category/{id}', [ShopController::class, 'categoryProducts'])->name('category.products');
+Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::get('/reviews', [CommentController::class, 'danhgia'])->name('reviews.danhgia');
+Route::post('/reviews', [CommentController::class, 'store'])
+    ->name('reviews.store')
+    ->middleware('auth');
 
 /*don hang*/ 
 Route::get('Order/index', [OrderController::class, 'index'])->name('Order.index')->middleware(AuthenticateMiddleware::class);
 Route::get('/orders/{id}', [OrderController::class, 'View'])->name('Order.View')->middleware(AuthenticateMiddleware::class); 
 Route::post('/orders/delete/{id}', [OrderController::class, 'delete'])->name('Order.delete')->middleware(AuthenticateMiddleware::class); 
+Route::post('/orders/update-status/{id}', [OrderController::class, 'updateStatus'])->name('Order.updateStatus')->middleware(AuthenticateMiddleware::class);

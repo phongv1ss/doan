@@ -39,8 +39,13 @@
                 </ul>
             </div>
             <div class="header__top__right__auth">
-                <a href="login.html"><i class="fa fa-user"></i> Đăng nhập</a>
-            </div>
+                @if(Auth::check())
+                    <a href="{{route('shop.profile')}}"><i class="fa fa-user"></i></a> 
+                    <a href="{{ route('auth.logout') }}"><i class="fa fa-sign-out"></i> Đăng xuất</a>  
+                @else
+                    <a href="{{ route('auth.login') }}"><i class="fa fa-user"></i> Đăng nhập</a>
+                @endif
+        </div>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
@@ -91,7 +96,14 @@
                                     <li><a href="#">Tiếng Việt</a></li>
                                 </ul>
                             </div>
-                            <div class="header__top__right__auth"> <a href="login.html"><i class="fa fa-user"></i> Đăng nhập</a> </div>
+                            <div class="header__top__right__auth">
+                                @if(Auth::check())
+                                    <a href="{{route('shop.profile')}}"><i class="fa fa-user"></i></a> 
+                                    <a href="{{ route('auth.logout') }}"><i class="fa fa-sign-out"></i> Đăng xuất</a>  
+                                @else
+                                    <a href="{{ route('auth.login') }}"><i class="fa fa-user"></i> Đăng nhập</a>
+                                @endif
+                               </div>
                         </div>
                     </div>
                 </div>
@@ -108,7 +120,7 @@
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="{{ route('shop.index') }}">Trang chủ</a></li>
-                            <li><a href="./shop-grid.html">Mua sắm</a></li>
+                            <li><a href="{{ route('shop.grid') }}">Mua sắm</a></li>
                             <li><a href="./contact.html">Liên hệ</a></li>
                         </ul>
                     </nav>

@@ -12,7 +12,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::withCount('products')->get();
-        $totalOrders = Order::count();
+        $totalOrders = Order::where('status', 'completed')->count();
         $orders = Order::orderBy('created_at', 'desc')->take(5)->get();
         $config['seo'] = config('apps.user');
         $config['css'] = [
@@ -75,7 +75,7 @@ class CategoryController extends Controller
         ]);
 
         return redirect()->route('Category.index')
-                         ->with('success', 'Danh mục đã được thêm thành công.');
+                         ->with('demo', 'Danh mục đã được thêm thành công.');
     }
 
  
@@ -118,7 +118,7 @@ class CategoryController extends Controller
         $category->save();
     
         return redirect()->route('Category.index')
-                         ->with('success', 'Danh mục đã được cập nhật.');
+                         ->with('demo', 'Danh mục đã được cập nhật.');
     }
 
   
@@ -128,13 +128,13 @@ class CategoryController extends Controller
     
         if ($category->products()->count() > 0) {
             return redirect()->route('Category.index')
-                             ->with('error', 'Không thể xóa danh mục vì có sản phẩm liên quan.');
+                             ->with('saitt', 'Không thể xóa danh mục vì có sản phẩm liên quan.');
         }
     
         $category->delete();
     
         return redirect()->route('Category.index')
-                         ->with('success', 'Danh mục đã được xóa.');
+                         ->with('demo', 'Danh mục đã được xóa.');
     }
     
 }

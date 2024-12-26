@@ -11,14 +11,14 @@
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
     <!-- Css Styles -->
-    <link rel="stylesheet" href="frontend/css/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/style1.css" type="text/css">
+    <link rel="stylesheet" href="{{asset('frontend/css/css/bootstrap.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/nice-select.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/elegant-icons.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/nice-select.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/jquery-ui.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/owl.carousel.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/slicknav.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/style1.css')}}" type="text/css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <style>
         body {
@@ -167,8 +167,13 @@
                                </ul>
                            </div>
                            <div class="header__top__right__auth">
-                               <a href="{{route('auth.login')}}"><i class="fa fa-user"></i> Đăng nhập</a>
-                           </div>                       
+                            @if(Auth::check())
+                                <a href="{{route('shop.profile')}}"><i class="fa fa-user"></i></a> 
+                                <a href="{{ route('auth.logout') }}"><i class="fa fa-sign-out"></i> Đăng xuất</a>  
+                            @else
+                                <a href="{{ route('auth.login') }}"><i class="fa fa-user"></i> Đăng nhập</a>
+                            @endif
+                           </div>                  
                        </div>
                    </div>
                </div>
@@ -378,10 +383,11 @@
    </footer>
     <!-- Footer Section End -->
     <!-- Js Plugins -->
-    <script src="frontend/js/js/jquery-3.3.1.min.js"></script><script src="frontend/js/js/bootstrap.min.js"></script>
-    <script src="frontend/js/js/jquery.nice-select.min.js"></script><script src="frontend/js/js/jquery-ui.min.js"></script>
-    <script src="frontend/js/js/jquery.slicknav.js"></script><script src="frontend/js/js/mixitup.min.js"></script>
-    <script src="frontend/js/js/owl.carousel.min.js"></script><script src="frontend/js/js/main.js"></script>
+    <script src="{{ asset('frontend/js/js/jquery-3.3.1.min.js')}}"></script><script src="{{ asset('frontend/js/js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('frontend/js/js/jquery.nice-select.min.js')}}"></script><script src="{{ asset('frontend/js/js/jquery-ui.min.js')}}"></script>
+    <script src="{{ asset('frontend/js/js/jquery.slicknav.js')}}"></script><script src="{{ asset('frontend/js/js/mixitup.min.js')}}"></script>
+    <script src="{{ asset('frontend/js/js/owl.carousel.min.js')}}"></script><script src="{{ asset('frontend/js/js/main.js')}}"></script>
+    
     
     
 </body></html>

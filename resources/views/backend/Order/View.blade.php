@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col-12">
         <!-- Tiêu đề chi tiết đơn hàng -->
-        <h2 class="text-center text-primary mb-4">Chi tiết đơn hàng #{{ $order->order_id }}</h2>
+        <h2>Chi tiết đơn hàng #{{ $order->order_id }}</h2>
 
         <!-- Thông tin khách hàng -->
         <div class="card mb-4">
@@ -32,6 +32,7 @@
             <thead class="bg-light">
                 <tr>
                     <th class="text-center">ID sản phẩm</th>
+                    <th class="text-center">Tên sản phẩm</th>
                     <th class="text-center">Số lượng</th>
                     <th class="text-center">Đơn giá</th>
                     <th class="text-center">Tổng</th>
@@ -41,13 +42,48 @@
                 @foreach ($orderDetails as $detail)
                 <tr>
                     <td class="text-center">{{ $detail->product_id }}</td>
+                    <td class="text-center">
+                        @if(isset($detail->product_name))
+                            {{ $detail->product_name }}
+                        @else
+                            <span class="text-muted">Sản phẩm không tồn tại</span>
+                        @endif
+                    </td>
                     <td class="text-center">{{ $detail->quantity }}</td>
                     <td class="text-right">{{ number_format($detail->price, 0, ',', '.') }} VNĐ</td>
                     <td class="text-right text-danger">{{ number_format($detail->quantity * $detail->price, 0, ',', '.') }} VNĐ</td>
                 </tr>
                 @endforeach
+                <tr class="bg-light font-weight-bold">
+                    <td colspan="2" class="text-right">Tổng cộng:</td>
+                    <td class="text-center">{{ $orderDetails->sum('quantity') }}</td>
+                    <td></td>
+                    <td class="text-right text-danger">{{ number_format($orderDetails->sum(function($detail) { 
+                        return $detail->quantity * $detail->price;
+                    }), 0, ',', '.') }} VNĐ</td>
+                </tr>
             </tbody>
         </table>
+        <!-- Thay đổi trạng thái đơn hàng -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Thay đổi trạng thái đơn hàng</h5>
+                    <form action="{{ route('Order.updateStatus', ['id' => $order->order_id]) }}" method="POST">
+                        @csrf
+                        @method('POST') <!-- Gửi phương thức POST -->
+                        <div class="form-group">
+                            <label for="status">Trạng thái đơn hàng:</label>
+                            <select name="status" id="status" class="form-control" required>
+                                <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Chờ xử lý</option>
+                                <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Hoàn thành</option>
+                                <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Đã hủy</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-3">Cập Nhật</button>
+                    </form>
+                </div>
+            </div>
+
 
         <!-- Nút Trở lại (căn phải) -->
         <div class="text-right mb-4">

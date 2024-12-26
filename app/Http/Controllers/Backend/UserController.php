@@ -1,7 +1,5 @@
 <?php
 namespace App\Http\Controllers\Backend;
-
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Order;
@@ -11,7 +9,7 @@ use App\Services\Interfaces\UserServiceInterface as UserService;
 use App\Repositories\Interfaces\ProvinceRepositoryInterface as ProvinceRepository;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 
-class UserController extends Controller
+class UserController 
 {
     protected $userService;
     protected $provinceRepository;
@@ -25,20 +23,12 @@ class UserController extends Controller
     $this->userService =$userService;
     $this->provinceRepository =$provinceRepository;
     $this->userRepository =$userRepository;
-}
-
+        }
 
     public function index(Request $request) {
-
         $users = $this->userService->paginate($request);
-
-        $totalOrders = Order::count();
-        $orders = Order::orderBy('created_at', 'desc')->take(5)->get();   
-
-        
-          
-
-
+        $totalOrders = Order::where('status', 'completed')->count();
+        $orders = Order::orderBy('created_at', 'desc')->take(5)->get();  
         $config =  [
             'js' =>[
                 'backend/js/plugins/switchery/switchery.js',
@@ -50,7 +40,6 @@ class UserController extends Controller
             ]
         ];
         $config['seo']= config('apps.user');  
-        
         $template ='backend.user.index';
         return view('backend.dashboard.layout',compact(
             'template',
@@ -59,13 +48,10 @@ class UserController extends Controller
             'totalOrders',
             'orders',
         ));
-        
-        
-
     }
     public function create(){
 
-        $totalOrders = Order::count();
+        $totalOrders = Order::where('status', 'completed')->count();
         $orders = Order::orderBy('created_at', 'desc')->take(5)->get();   
 
         $provinces= $this->provinceRepository->all();
@@ -98,7 +84,7 @@ class UserController extends Controller
 
 
     public function edit($id) {
-        $totalOrders = Order::count();
+        $totalOrders = Order::where('status', 'completed')->count();
         $orders = Order::orderBy('created_at', 'desc')->take(5)->get();   
         $user = $this->userRepository->findById($id);
     
@@ -134,7 +120,7 @@ class UserController extends Controller
 
 
     public function delete($id){
-        $totalOrders = Order::count();
+        $totalOrders = Order::where('status', 'completed')->count();
         $orders = Order::orderBy('created_at', 'desc')->take(5)->get();   
         $config['seo'] = config('apps.user');
         $provinces = $this->provinceRepository->all();
@@ -164,8 +150,6 @@ class UserController extends Controller
     {
         // Thêm người dùng thông qua UserService
         $user = $this->userService->dangky($request);
-        $totalOrders = Order::count();
-        $orders = Order::orderBy('created_at', 'desc')->take(5)->get();   
         // Kiểm tra kết quả và chuyển hướng
         if ($user) {
             return redirect()->route('user.dangky')->with('demo', 'Thêm thành công!');
@@ -176,7 +160,7 @@ class UserController extends Controller
     
 
     public function dangky(){
-        $totalOrders = Order::count();
+        $totalOrders = Order::where('status', 'completed')->count();
         $orders = Order::orderBy('created_at', 'desc')->take(5)->get();   
         $provinces= $this->provinceRepository->all();
         $config['seo'] = config('apps.user');
@@ -197,10 +181,7 @@ class UserController extends Controller
             'orders',
         ));
     }
-
-    
 }
-
 
 
 
