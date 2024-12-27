@@ -1,0 +1,13 @@
+1.cài đặt
+tải file về từ github : https://github.com/phongv1ss/doan
+cấu hình env và nạp database vào cơ sở dữ liệu
+tên table là :laravel hoặc tên khác tùy ý (lưu ý:chỉnh sửa tên giống với trong file env)
+và mở warmpsever và sử dụng.
+2.tài khoản
+Admin:phongvuong145@gmail.com
+mk:   password
+người dùng:phonggg@gmail.com
+mk:   pog1452003
+
+3.Thêm sản phẩm
+nếu thêm sản phẩm thì phải có thư mục:frontend/img/img/product/ để có thể lưu trữ và tiện cho việc up hình
