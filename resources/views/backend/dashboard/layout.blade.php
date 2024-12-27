@@ -20,9 +20,9 @@
                 toast.style.opacity = '0'; 
                 setTimeout(function() {
                     toast.style.display = 'none';
-                }, 500); 
+                }, 100); 
             }
-        }, 300); 
+        }, 100); 
     </script>
     <style>
         .toast-message {

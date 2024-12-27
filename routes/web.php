@@ -18,6 +18,8 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Ajax\LocationController;
 use App\Models\frontend\Product;
 use App\Http\Controllers\Front\CommentController;
+use App\Http\Controllers\Backend\ReviewController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -127,3 +129,10 @@ Route::get('Order/index', [OrderController::class, 'index'])->name('Order.index'
 Route::get('/orders/{id}', [OrderController::class, 'View'])->name('Order.View')->middleware(AuthenticateMiddleware::class); 
 Route::post('/orders/delete/{id}', [OrderController::class, 'delete'])->name('Order.delete')->middleware(AuthenticateMiddleware::class); 
 Route::post('/orders/update-status/{id}', [OrderController::class, 'updateStatus'])->name('Order.updateStatus')->middleware(AuthenticateMiddleware::class);
+
+Route::group(['prefix' => 'admin'], function() {
+    Route::resource('review', \App\Http\Controllers\Backend\ReviewController::class)->middleware(AuthenticateMiddleware::class);
+    Route::post('review/update-status/{id}', [\App\Http\Controllers\Backend\ReviewController::class, 'updateStatus'])
+        ->name('review.updateStatus')
+        ->middleware(AuthenticateMiddleware::class);
+});

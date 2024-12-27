@@ -1,16 +1,19 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Review extends Model
 {
-    protected $table = 'comments';
+    protected $table = 'reviews';
     
     protected $fillable = [
         'user_id',
         'product_id',
-        'comment'
+        'rating',
+        'comment',
+        'status'
     ];
 
     public function user()
@@ -22,4 +25,4 @@ class Comment extends Model
     {
         return $this->belongsTo(Product::class);
     }
-}
+} 

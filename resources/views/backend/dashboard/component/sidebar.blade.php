@@ -42,6 +42,12 @@
                     <li><a href="{{ route('Category.index') }}">Quản Lý Danh Mục</a></li>
                 </ul>
             </li>
+            <li>
+                <a href="{{ route('review.index') }}">
+                    <i class="fa fa-star"></i>
+                    <span class="nav-label">Quản lý đánh giá</span>
+                </a>
+            </li>
             <li class="active">
                 <a href="{{ route('shop.index') }}"><i class="fa fa-cart-plus"></i> <span class="nav-label ">Trang Bán Hàng</span></a>
             </li>
