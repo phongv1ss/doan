@@ -132,15 +132,15 @@ Route::post('/orders/delete/{id}', [OrderController::class, 'delete'])->name('Or
 Route::post('/orders/update-status/{id}', [OrderController::class, 'updateStatus'])->name('Order.updateStatus')->middleware(AuthenticateMiddleware::class);
 
 Route::group(['prefix' => 'admin'], function() {
-    Route::resource('review', CommentController::class)->middleware(AuthenticateMiddleware::class);
-    Route::post('review/update-status/{id}', [CommentController::class, 'updateStatus'])
+    Route::resource('review', \App\Http\Controllers\Backend\ReviewController::class)->middleware(AuthenticateMiddleware::class);
+    Route::post('review/update-status/{id}', [\App\Http\Controllers\Backend\ReviewController::class, 'updateStatus'])
         ->name('review.updateStatus')
         ->middleware(AuthenticateMiddleware::class);
 });
 
 Route::prefix('comment')->group(function () {
+    Route::get('/index', [App\Http\Controllers\Front\CommentController::class, 'index'])->name('comment.index');
     Route::get('/danhgia', [App\Http\Controllers\Front\CommentController::class, 'danhgia'])->name('comment.danhgia');
     Route::post('/store', [App\Http\Controllers\Front\CommentController::class, 'store'])->name('comment.store');
-    Route::get('/', [App\Http\Controllers\Front\CommentController::class, 'index'])->name('comment.index');
     Route::delete('/{id}', [App\Http\Controllers\Front\CommentController::class, 'destroy'])->name('comment.destroy');
 });

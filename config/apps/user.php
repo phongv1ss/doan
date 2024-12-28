@@ -43,6 +43,9 @@ return [
     'Themdanhmuc' => [
         'title' => 'Thêm Danh Mục',
     ],
+    'review' => [
+        'title' => 'Quản Lý Đánh Giá',
+    ],
 ];
 
 ?>
