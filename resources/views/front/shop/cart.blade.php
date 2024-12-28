@@ -69,7 +69,9 @@
                         <li><a href="./checkout.html">Check Out</a></li>
                     </ul>
                 </li>
-                <li><a href="./contact.html">Liên hệ</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('reviews.danhgia') }}">Đánh giá</a>
+                </li>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -140,7 +142,9 @@
                         <ul>
                             <li class="active"><a href="{{ route('shop.index') }}">Trang chủ</a></li>
                             <li><a href="{{ route('shop.grid') }}">Mua sắm</a></li>
-                            <li><a href="./contact.html">Liên hệ</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('comment.danhgia') }}">Đánh giá</a>
+                            </li>   
                         </ul>
                     </nav>
                 </div>

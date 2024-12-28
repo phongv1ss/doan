@@ -34,7 +34,7 @@
             @foreach($categories as $category)
             <tr>
                 <td>{{ $category->category_id ?? 'Không có ID' }}</td>
-                <td>{{ $category->name }}</td>
+                <td> <a href="{{route('Product.xemsp',$category->category_id)}}">{{ $category->name }}</a></td>
                 <td>{{ $category->status ? 'Hiển thị' : 'Ẩn' }}</td>
                 <td>{{ $category->products_count ?? 0 }}</td>
                 <td>

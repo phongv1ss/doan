@@ -1,3 +1,6 @@
+@extends('backend.dashboard.layout')
+
+@section('content')
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>Quản lý đánh giá</h2>
@@ -39,15 +42,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($reviews as $review)
+                                @foreach($comments as $comment)
                                 <tr>
-                                    <td>{{ $review->id }}</td>
-                                    <td>{{ $review->user_name }}</td>
-                                    <td>{{ $review->product_name }}</td>
-                                    <td>{{ $review->comment }}</td>
-                                    <td>{{ $review->created_at }}</td>
+                                    <td>{{ $comment->id }}</td>
+                                    <td>{{ $comment->user_name }}</td>
+                                    <td>{{ $comment->product_name }}</td>
+                                    <td>{{ $comment->comment }}</td>
+                                    <td>{{ $comment->created_at }}</td>
                                     <td>
-                                        <form action="{{ route('review.destroy', $review->id) }}" method="POST" class="d-inline">
+                                        <form action="{{ route('review.destroy', $comment->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xóa đánh giá này?')">
@@ -59,13 +62,14 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $reviews->links() }}
+                        {{ $comments->links() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
 
 @push('scripts')
 <script>

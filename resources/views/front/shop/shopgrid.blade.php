@@ -59,8 +59,8 @@
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
                 <li class="active"><a href="{{ route('shop.index') }}">Trang chủ</a></li>
-                <li><a href="./shop-grid.html">Mua sắm</a></li>
-                <li><a href="./contact.html">Liên hệ</a></li>
+                <li><a href="{{ route('shop.grid') }}">Mua sắm</a></li>
+                <a class="nav-link" href="{{ route('comment.danhgia') }}">Đánh giá</a>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -129,8 +129,10 @@
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="{{ route('shop.index') }}">Trang chủ</a></li>
-                            <li><a href="./shop-grid.html">Mua sắm</a></li>
-                            <li><a href="./contact.html">Liên hệ</a></li>
+                            <li><a href="{{ route('shop.grid') }}">Mua sắm</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('comment.danhgia') }}">Đánh giá</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -175,44 +177,100 @@
         </div>
     </header>
     <!-- Header Section End -->
-
-<!-- Product Details Section Begin -->
-<section class="product-details spad">
+    <!-- Hero Section Begin -->
+   <section class="hero">
     <div class="container">
         <div class="row">
-           
-            <div class="col-lg-6 col-md-6">
-                <div class="product__details__pic">
-                    <div class="product__details__pic__item">
-                        <img class="product__details__pic__item--large" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
-
-                    </div>
-                </div>
+            <div class="col-lg-3">
             </div>
-        
-            
-            <div class="col-lg-12">
-                <div class="product__details__tab">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                               aria-selected="true">Description</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                            <div class="product__details__tab__desc">
-                                <h6>Products Information</h6><p>{{ $product->description }}</p>
-                            </div>
-                        </div>              
+            <div class="col-lg-9">
+                <div class="hero__search">
+                    <div class="hero__search__form">
+                        <form action="{{ route('products.search') }}" method="GET">
+                            <input type="text" name="query" placeholder="Tìm Kiếm sản phẩm?">
+                            <button type="submit" class="site-btn">Tìm kiếm</button>
+                        </form>
+                    </div>                                               
+                    <div class="hero__search__phone">
+                        <div class="hero__search__phone__icon">
+                            <i class="fa fa-phone"></i>
+                        </div>
+                        <div class="hero__search__phone__text">
+                            <h5>0915780270</h5>
+                            <span>Hỗ trợ 24/7</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+    
+    <!-- Hero Section End -->
 
-<!-- Product Details Section End -->
+
+    <!-- Product Section Begin -->
+    <section class="product spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-5">
+                    <div class="sidebar">
+                        <div class="sidebar__item">
+                            <h4>Theo sản phẩm</h4>
+                                <ul>
+                                    @foreach($categories as $category)
+                                        <li>
+                                            <a href="{{ route('category.products', $category->category_id) }}" class="category-link">
+                                                {{ $category->name }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <form method="GET" action="{{ url()->current() }}" class="sort-form">
+                                    <select name="sort" id="sort" onchange="this.form.submit()">
+                                        <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>Giá tăng dần</option>
+                                        <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Giá giảm dần</option>
+                                    </select>
+                                </form>
+                        </div>
+                        </div>
+                    </div>
+
+                {{-- ô sản phẩm --}}  
+                <div class="col-lg-9 col-md-7">
+                    
+                    <div class="filter__item">
+                        <div class="row">
+                            @foreach ($products as $product)
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="product__item">
+                                        <div class="product__item__pic set-bg" data-setbg="{{ asset('storage/' . $product->image) }}">
+                                            <ul class="product__item__pic__hover">
+                                                <li><a href="{{ route('shop.show', $product->id) }}"><i class="fa fa-eye"></i></a> </li>
+                                                <li>
+                                                    <form action="{{ route('cart.add') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                        <button type="submit" style="display: inline-block; border-radius: 50%; background-color: white; padding: 10px; color: black; border: none; cursor: pointer;">
+                                                            <i class="fa fa-shopping-cart" style="color: black; font-size: 20px;"></i>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="product__item__text">
+                                            <h6><a href="#">{{ $product->name }}</a></h6>
+                                            <h5>${{ number_format($product->price, 2) }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Section End -->
 
     <!-- Footer Section Begin -->
 <footer class="footer spad">
@@ -225,27 +283,6 @@
                         <li>Address: 60-49 Road 11378 New York</li>
                         <li>Phone: +65 11.188.888</li>
                         <li>Email: hello@colorlib.com</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
-                <div class="footer__widget">
-                    <h6>Useful Links</h6>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">About Our Shop</a></li>
-                        <li><a href="#">Secure Shopping</a></li>
-                        <li><a href="#">Delivery Information</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Our Sitemap</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="#">Who We Are</a></li>
-                        <li><a href="#">Our Services</a></li>
-                        <li><a href="#">Projects</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Innovation</a></li>
-                        <li><a href="#">Testimonials</a></li>
                     </ul>
                 </div>
             </div>

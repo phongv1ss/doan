@@ -19,6 +19,7 @@ use App\Http\Controllers\Ajax\LocationController;
 use App\Models\frontend\Product;
 use App\Http\Controllers\Front\CommentController;
 use App\Http\Controllers\Backend\ReviewController;
+use App\Models\Category;
 
 Route::get('/', function () {
     return view('welcome');
@@ -100,7 +101,7 @@ Route::post('storesanpham', [ProductController::class, 'storesanpham'])->name('P
     Route::get('Category/edit/{category_id}', [CategoryController::class, 'edit'])->name('Category.edit')->middleware(AuthenticateMiddleware::class); 
     Route::put('Category/update/{category_id}', [CategoryController::class, 'update'])->name('Category.update')->middleware(AuthenticateMiddleware::class);
     Route::delete('Category/delete/{category_id}', [CategoryController::class, 'destroy'])->name('Category.destroy')->middleware(AuthenticateMiddleware::class); 
-
+    Route::get('Product/category/{id}', [ProductController::class, 'xemsp'])->name('Product.xemsp')->middleware(AuthenticateMiddleware::class);
 
 
 /*SHOP*/
@@ -131,8 +132,15 @@ Route::post('/orders/delete/{id}', [OrderController::class, 'delete'])->name('Or
 Route::post('/orders/update-status/{id}', [OrderController::class, 'updateStatus'])->name('Order.updateStatus')->middleware(AuthenticateMiddleware::class);
 
 Route::group(['prefix' => 'admin'], function() {
-    Route::resource('review', \App\Http\Controllers\Backend\ReviewController::class)->middleware(AuthenticateMiddleware::class);
-    Route::post('review/update-status/{id}', [\App\Http\Controllers\Backend\ReviewController::class, 'updateStatus'])
+    Route::resource('review', CommentController::class)->middleware(AuthenticateMiddleware::class);
+    Route::post('review/update-status/{id}', [CommentController::class, 'updateStatus'])
         ->name('review.updateStatus')
         ->middleware(AuthenticateMiddleware::class);
+});
+
+Route::prefix('comment')->group(function () {
+    Route::get('/danhgia', [App\Http\Controllers\Front\CommentController::class, 'danhgia'])->name('comment.danhgia');
+    Route::post('/store', [App\Http\Controllers\Front\CommentController::class, 'store'])->name('comment.store');
+    Route::get('/', [App\Http\Controllers\Front\CommentController::class, 'index'])->name('comment.index');
+    Route::delete('/{id}', [App\Http\Controllers\Front\CommentController::class, 'destroy'])->name('comment.destroy');
 });

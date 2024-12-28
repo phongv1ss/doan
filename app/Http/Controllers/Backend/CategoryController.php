@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 
 class CategoryController extends Controller
 {
@@ -134,6 +135,21 @@ class CategoryController extends Controller
         $category->delete();
     
         return redirect()->route('Category.index')
+                         ->with('demo', 'Danh mục đã được xóa.');
+    }
+     public function xemsanpham($category_id)
+    {
+        $category = Category::findOrFail($category_id);
+        $data = Product::where('$category_id',$category_id);
+    
+        $config['css'] = [
+            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
+        ];
+        $config['js'] = [
+            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+            'backend/library/location.js'
+        ];
+        return view('backend.Product.timkiem',compact('data','category', 'config',))
                          ->with('demo', 'Danh mục đã được xóa.');
     }
     

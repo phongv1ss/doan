@@ -51,7 +51,7 @@
             <ul>
                 <li class="active"><a href="{{ route('shop.index') }}">Trang chủ</a></li>
                 <li><a href="./shop-grid.html">Mua sắm</a></li>
-                <li><a href="./contact.html">Liên hệ</a></li>
+                <a class="nav-link" href="{{ route('comment.danhgia') }}">Đánh giá</a>  
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -121,7 +121,9 @@
                         <ul>
                             <li class="active"><a href="{{ route('shop.index') }}">Trang chủ</a></li>
                             <li><a href="{{ route('shop.grid') }}">Mua sắm</a></li>
-                            <li><a href="./contact.html">Liên hệ</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('comment.danhgia') }}">Đánh giá</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>

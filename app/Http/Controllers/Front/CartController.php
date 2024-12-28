@@ -17,32 +17,33 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
-            // Kiểm tra nếu người dùng chưa đăng nhập, ta lưu thông tin giỏ hàng trong session
-            $product = Product::find($request->product_id);
-            $quantity = $request->input('quantity', 1);
-    
-            if (!$product) {
-                return redirect()->back()->with('saitt', 'Sản phẩm không tồn tại');
-            }
-            // Lấy thông tin giỏ hàng từ session, nếu không có thì tạo mới
-            $cart = session()->get('cart', []);
-            // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng lên 1
-            if (isset($cart[$request->product_id])) {
-                $cart[$request->product_id]['quantity']++;
-            } else {
-                // Nếu sản phẩm chưa có trong giỏ, thêm mới
-                $cart[$request->product_id] = [
-                    'name' => $product->name,
-                    'quantity' => $quantity,
-                    'price' => $product->price,
-                    'image' => $product->image,
-                ];
-            }
-            // Lưu giỏ hàng vào session
-            session()->put('cart', $cart);
-    
-            return redirect()->back()->with('demo', 'Sản phẩm đã được thêm vào giỏ hàng');
+        $validated = $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'quantity' => 'required|integer|min:1',
+            'price' => 'required|numeric',
+            'name' => 'required|string',
+            'image' => 'required|string',
+        ]);
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$validated['product_id']])) {
+            $cart[$validated['product_id']]['quantity'] += $validated['quantity'];
+        } else {
+            $cart[$validated['product_id']] = [
+                'name' => $validated['name'],
+                'quantity' => $validated['quantity'],
+                'price' => $validated['price'],
+                'image' => $validated['image'],
+            ];
+        }
+        session()->put('cart', $cart);
+
+        return redirect()->route('cart.index')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng.');
     }
+
+
+
+
     public function removeFromCart(Request $request)
 {
     $product_id = $request->input('product_id');

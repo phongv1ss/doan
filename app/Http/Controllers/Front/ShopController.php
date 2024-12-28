@@ -8,59 +8,74 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Category; 
-use App\Models\Comment;
+
 class ShopController extends Controller
 {
     public function index() {
+          // Thêm đoạn code lấy comments
+          $comments = DB::table('comments')
+          ->join('users', 'comments.user_id', '=', 'users.id')
+          ->join('products', 'comments.product_id', '=', 'products.id')
+          ->select(
+              'comments.*',
+              'users.name as user_name',
+              'products.name as product_name'
+          )
+          ->orderBy('comments.created_at', 'desc')
+          ->take(5)  // Lấy 5 comment mới nhất
+          ->get();
         $products = Product::all(); 
-        $comments = Comment::with(['user', 'product'])
-                      ->latest()
-                      ->take(10)
-                      ->get();
         return view('index', compact('products', 'comments'));
     }
     public function show($id) {
         $product = Product::findOrFail($id); // Tìm sản phẩm theo ID
         return view('front.shop.show', compact('product')); // Truyền biến $product vào view chi tiết
     }
-    public function shopGrid()
-    {
-        // Lấy tất cả danh mục từ bảng categories
+    public function shopGrid(Request $request) {
         $categories = Category::all();
-        // Lấy sản phẩm (nếu cần)
-        $products = Product::all();
-        // Trả dữ liệu sang view
-        return view('front.shop.shopgrid', compact('categories', 'products'));
+        $products = $this->getSortedProducts($request);
+        $sort = $request->input('sort', 'asc');
+    
+        return view('front.shop.shopgrid', compact('categories', 'products', 'sort'));
     }
 
-    public function search(Request $request)
-    {
-        $query = $request->input('query'); // Lấy từ khóa từ form
+    public function search(Request $request) {
+        $query = $request->input('query'); 
+        $sort = $request->input('sort', 'asc'); 
         $products = Product::where('name', 'LIKE', "%{$query}%")
-                            ->where('status', 1) // Chỉ lấy sản phẩm đang hoạt động
+                            ->where('status', 1)
+                            ->orderBy('price', $sort)
                             ->get();
-        return view('front.shop.search', compact('products', 'query'));
+        
+        $products = Product::where('description', 'LIKE', "%{$query}%")
+        ->where('status', 1)
+        ->orderBy('price', $sort)
+        ->get();
+    
+        return view('front.shop.search', compact('products', 'query', 'sort'));
     }
-    public function categoryProducts($categoryId)
+    
+
+    public function categoryProducts(Request $request, $categoryId) 
     {
-    // Lấy danh mục hiện tại
-    $currentCategory = Category::findOrFail($categoryId);
+        $currentCategory = Category::findOrFail($categoryId); 
+        $categories = Category::all();
+        $products = Product::where('category_id', $categoryId)
+                            ->orderBy('price', $request->input('sort', 'asc'))
+                            ->paginate(9);
 
-    // Lấy danh sách sản phẩm thuộc danh mục đó
-    $products = Product::where('category_id', $categoryId)->paginate(9);
+        return view('front.shop.category_products', compact('products', 'categories', 'currentCategory'));
+    }
 
-    // Lấy tất cả danh mục để hiển thị sidebar
-    $categories = Category::all();
-
-    return view('front.shop.category_products', compact('products', 'categories', 'currentCategory'));
-    }   
     public function profile() {
         $user = Auth::user();
         
         return view('front.shop.profile', compact('user'));
         
     }
+
     public function profileupdate(Request $request, $id)
     {
         // Lấy người dùng theo ID
@@ -93,5 +108,13 @@ class ShopController extends Controller
         // Quay lại trang profile hoặc dashboard với thông báo thành công
         return redirect()->route('shop.profile', ['id' => $user->id])
                          ->with('demo', 'Cập Nhật thành công');
+    }
+
+    public function getSortedProducts(Request $request) {
+        // Lấy tham số sắp xếp từ request
+        $sort = $request->input('sort', 'asc'); // Mặc định là tăng dần
+    
+        // Lấy sản phẩm theo sắp xếp
+        return Product::orderBy('price', $sort)->get();
     }
 }

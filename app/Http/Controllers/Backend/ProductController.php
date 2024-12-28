@@ -190,4 +190,31 @@ class ProductController extends Controller
             return redirect()->route('Product.index')->with('saitt', 'Lỗi: ' . $e->getMessage());
         }
     }
+    public function xemsp($category_id)
+    {
+        $totalOrders = Order::where('status', 'completed')->count();
+        $orders = Order::orderBy('created_at', 'desc')->take(5)->get();    
+        $data = Product::where('category_id',$category_id)->paginate(5);
+
+        
+
+        $config['seo'] = config('apps.user');
+        $config['css'] = [
+            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
+        ];
+        $config['js'] = [
+            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+            'backend/library/location.js'
+        ];
+        $config['method'] = 'quanlysanpham';
+        $template = 'backend.Product.index';
+
+        return view('backend.dashboard.layout', compact(
+            'template',
+            'config',
+            'data',
+            'totalOrders',
+            'orders'
+        ));
+    }
 }

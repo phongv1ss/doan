@@ -69,6 +69,19 @@ class DashboardController extends Controller
             ->selectRaw('SUM(order_details.price * order_details.quantity) as total_revenue')
             ->value('total_revenue');
 
+        // Thêm đoạn code lấy comments
+        $comments = DB::table('comments')
+            ->join('users', 'comments.user_id', '=', 'users.id')
+            ->join('products', 'comments.product_id', '=', 'products.id')
+            ->select(
+                'comments.*',
+                'users.name as user_name',
+                'products.name as product_name'
+            )
+            ->orderBy('comments.created_at', 'desc')
+            ->take(5)  // Lấy 5 comment mới nhất
+            ->get();
+
         // Trả về view với các dữ liệu
          $template = 'backend.dashboard.home.index';
         return view('backend.dashboard.layout', compact(
@@ -83,6 +96,7 @@ class DashboardController extends Controller
             'totalUsers',       
             'topProducts',
             'totalCategories',
+            'comments',
         ))->with('demo', 'Đăng nhập Thành Công !!!');
     }
 

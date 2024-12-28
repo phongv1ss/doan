@@ -38,7 +38,37 @@ class CommentController extends Controller
 
         } catch (\Exception $e) {
             Log::error('Comment Error: ' . $e->getMessage());
-            return redirect()->back()->with('saitt', 'Có lỗi xảy ra, vui lòng thử lại!');
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại!');
+        }
+    }
+
+    public function index()
+    {
+        $comments = Comment::join('users', 'comments.user_id', '=', 'users.id')
+                          ->join('products', 'comments.product_id', '=', 'products.id')
+                          ->select('comments.*', 'users.name as user_name', 'products.name as product_name')
+                          ->orderBy('comments.created_at', 'desc')
+                          ->get();
+
+        return view('front.shop.reviews', compact('comments'));
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $comment = Comment::findOrFail($id);
+            
+            // Kiểm tra xem người dùng có quyền xóa comment không
+            if (Auth::id() !== $comment->user_id && !Auth::user()->is_admin) {
+                return redirect()->back()->with('error', 'Bạn không có quyền xóa đánh giá này!');
+            }
+
+            $comment->delete();
+            return redirect()->back()->with('success', 'Đã xóa đánh giá thành công!');
+
+        } catch (\Exception $e) {
+            Log::error('Delete Comment Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra khi xóa đánh giá!');
         }
     }
 } 

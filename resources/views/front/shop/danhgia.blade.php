@@ -10,15 +10,14 @@
     <title>Web 2Phong</title>
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="frontend/css/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="frontend/css/css/style1.css" type="text/css">
+    <link rel="stylesheet" href="{{asset('frontend/css/css/bootstrap.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/nice-select.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/elegant-icons.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/nice-select.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/jquery-ui.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/owl.carousel.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/slicknav.min.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/css/css/style1.css')}}" type="text/css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 </head>
 
@@ -160,7 +159,7 @@
                             <li class="active"><a href="{{ route('shop.index') }}">Trang chủ</a></li>
                             <li><a href="{{ route('shop.grid') }}">Mua sắm</a></li>
                             <li class="nav-item">
-                             <a class="nav-link" href="{{ route('reviews.danhgia') }}">Đánh giá</a>
+                             <a class="nav-link" href="{{ route('comment.danhgia') }}">Đánh giá</a>
                          </li>
                         </ul>
                     </nav>
@@ -213,11 +212,14 @@
         </div>
     @else
         <div class="text-center">
-            <p>Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để gửi đánh giá</p>
+            <p>Vui lòng <a href="{{ route('auth.login') }}">đăng nhập</a> để gửi đánh giá</p>
         </div>
     @endauth
 </div>
-<script src="frontend/js/js/jquery-3.3.1.min.js"></script><script src="frontend/js/js/bootstrap.min.js"></script>
-    <script src="frontend/js/js/jquery.nice-select.min.js"></script><script src="frontend/js/js/jquery-ui.min.js"></script>
-    <script src="frontend/js/js/jquery.slicknav.js"></script><script src="frontend/js/js/mixitup.min.js"></script>
-    <script src="frontend/js/js/owl.carousel.min.js"></script><script src="frontend/js/js/main.js"></script>
+<script src="{{ asset('frontend/js/js/jquery-3.3.1.min.js')}}"></script><script src="{{ asset('frontend/js/js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('frontend/js/js/jquery.nice-select.min.js')}}"></script><script src="{{ asset('frontend/js/js/jquery-ui.min.js')}}"></script>
+    <script src="{{ asset('frontend/js/js/jquery.slicknav.js')}}"></script><script src="{{ asset('frontend/js/js/mixitup.min.js')}}"></script>
+    <script src="{{ asset('frontend/js/js/owl.carousel.min.js')}}"></script><script src="{{ asset('frontend/js/js/main.js')}}"></script>
+    
+    
+</body></html>

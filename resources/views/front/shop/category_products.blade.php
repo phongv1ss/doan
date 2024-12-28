@@ -166,7 +166,9 @@
                         <ul>
                             <li class="active"><a href="{{ route('shop.index') }}">Trang chủ</a></li>
                             <li><a href="{{ route('shop.grid') }}">Mua sắm</a></li>
-                            <li><a href="./contact.html">Liên hệ</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('comment.danhgia') }}">Đánh giá</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -283,6 +285,12 @@
                             </li>
                         @endforeach
                     </ul>
+                    <form method="GET" action="{{ url()->current() }}" class="sort-form">
+                        <select name="sort" id="sort" onchange="this.form.submit()">
+                            <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>Giá tăng dần</option>
+                            <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Giá giảm dần</option>
+                        </select>
+                    </form>
                 </div>
             </div>
         </div>
@@ -308,13 +316,6 @@
                                     </li>
                                 </ul>
                             </div>
-                            
-            <form method="GET" action="{{ url()->current() }}" class="sort-form">
-                <select name="sort" id="sort" onchange="this.form.submit()">
-                    <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>Giá tăng dần</option>
-                    <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Giá giảm dần</option>
-                </select>
-            </form>
 
                             <div class="product__item__text">
                                 <h6><a href="#">{{ $product->name }}</a></h6>

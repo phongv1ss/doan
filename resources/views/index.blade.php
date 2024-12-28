@@ -83,7 +83,12 @@
                </ul>
            </div>
            <div class="header__top__right__auth">
-               <a href="{{route('auth.login')}}"><i class="fa fa-user"></i> Đăng nhập</a>
+               @if(Auth::check())
+                   <a href="{{ route('shop.profile') }}"><i class="fa fa-user"></i></a> 
+                   <a href="{{ route('auth.logout') }}"><i class="fa fa-sign-out"></i> Đăng xuất</a>  
+               @else
+                   <a href="{{ route('auth.login') }}"><i class="fa fa-user"></i> Đăng nhập</a>
+               @endif
            </div>
            
        </div>
@@ -91,7 +96,7 @@
            <ul>
                <li class="active"><a href="{{ route('shop.index') }}">Trang chủ</a></li>
                <li><a href="./shop-grid.html">Mua sắm</a></li>
-               <li><a href="./contact.html">Liên hệ</a></li>
+               <a class="nav-link" href="{{ route('comment.danhgia') }}">Đánh giá</a>   
            </ul>
        </nav>
        <div id="mobile-menu-wrap"></div>
@@ -160,7 +165,7 @@
                            <li class="active"><a href="{{ route('shop.index') }}">Trang chủ</a></li>
                            <li><a href="{{ route('shop.grid') }}">Mua sắm</a></li>
                            <li class="nav-item">
-                            <a class="nav-link" href="{{ route('reviews.danhgia') }}">Đánh giá</a>
+                            <a class="nav-link" href="{{ route('comment.danhgia') }}">Đánh giá</a>
                         </li>
                        </ul>
                    </nav>
@@ -294,11 +299,11 @@
                         <div class="card h-100">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between mb-2">
-                                    <h6 class="card-subtitle text-primary">{{ $comment->user->name }}</h6>
-                                    <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
+                                    <h6 class="card-subtitle text-primary">{{ $comment->user_name }}</h6>
+                                    <small class="text-muted">{{ \Carbon\Carbon::parse($comment->created_at)->diffForHumans() }}</small>
                                 </div>
                                 <p class="card-text">{{ $comment->comment }}</p>
-                                <small class="text-muted">Sản phẩm: {{ $comment->product->name }}</small>
+                                <small class="text-muted">Sản phẩm: {{ $comment->product_name }}</small>
                             </div>
                         </div>
                     </div>
